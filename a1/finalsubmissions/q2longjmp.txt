@@ -1,0 +1,51 @@
+b(i) 
+The output isnt the same because less Ts were created and hence destroyed, resulting in less '~'s being printed.
+
+(ii)
+Without optimization:
+values 11 11 103 13
+Original: 10.60u 0.00s 0:10.61
+Updated: 4.22u 0.00s 0:04.24
+
+
+values 11 22 103 13
+Original:21.89u 0.00s 0:21.90
+Updated: 7.42u 0.00s 0:07.43
+
+
+values 11 11 60 13
+Original: 12.98u 0.00s 0:12.99
+Updated: 4.33u 0.00s 0:04.33
+
+
+values 11 22 60 13
+Original: 22.62u 0.00s 0:22.62
+Updated: 7.66u 0.00s 0:07.66
+
+
+With Optimization:
+values 11 11 103 13
+Original: 12.42u 0.00s 0:12.44
+Updated: 3.16u 0.00s 0:03.16
+
+values 11 22 103 13
+Original: 25.21u 0.00s 0:25.21
+Updated: 6.47u 0.00s 0:06.47
+
+values 11 11 60 13
+Original: 15.08u 0.00s 0:15.08
+Updated: 3.86u 0.00s 0:03.86
+
+values 11 22 60 13
+Original: 26.52u 0.00s 0:26.52
+Updated: 6.75u 0.00s 0:06.75
+
+
+(iii) The updated version seems to be quite faster in general. This might be because the try catch blocks require more
+computation that using longjmp/setjmp. Also, possibly more exceptions are throwin in the original program, but that 
+seems unlikely.
+
+(iv) It is the same as before. The updated program is faster. The upgraded program is also faster than its non 
+optimized counterpart. Interestingly, the same cannot be said about the original program as it is weirdly slower
+than its unoptimized version.
+

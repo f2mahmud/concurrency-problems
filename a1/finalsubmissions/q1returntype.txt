@@ -1,0 +1,200 @@
+1b(i):
+The results without compiler optimization are as follows:
+
+Parameters :  100000000 10000 1003
+Original:: 3.68u 0.00s 0:03.69
+returnglobal: 3.62u 0.00s 0:03.62
+returntype: 22.46u 0.00s 0:22.47
+returntypec: 4.03u 0.00s 0:04.04
+ 
+Parameters :  110000000 10000 1003
+Original: 4.15u 0.00s 0:04.15
+returnglobal: 4.09u 0.00s 0:04.10
+returntype: 24.78u 0.00s 0:24.78
+returntypec: 4.45u 0.00s 0:04.45
+
+Parameters :  120000000 10000 1003
+Original: 4.44u 0.00s 0:04.45
+returnglobal: 4.40u 0.00s 0:04.41
+returntype: 26.81u 0.00s 0:26.81
+returntypec: 5.04u 0.00s 0:05.04
+ 
+Parameters :  130000000 10000 1003
+Original: 4.68u 0.00s 0:04.68
+returnglobal:  : 4.66u 0.00s 0:04.67
+returntype: 28.90u 0.00s 0:28.90
+returntypec: 5.43u 0.00s 0:05.43
+ 
+Parameters :  140000000 10000 1003
+Original: 5.17u 0.00s 0:05.17
+returnglobal: 5.18u 0.00s 0:05.18
+returntype: 31.96u 0.00s 0:31.97
+returntypec: 6.14u 0.00s 0:06.14
+ 
+Parameters :  150000000 10000 1003
+Original: 5.89u 0.00s 0:05.90
+returnglobal: 5.86u 0.00s 0:05.87
+returntype: 33.87u 0.00s 0:33.88
+returntypec: 6.11u 0.00s 0:06.11
+ 
+Parameters :  160000000 10000 1003
+Original: 5.78u 0.00s 0:05.78
+returnglobal: 5.86u 0.00s 0:05.86
+returntype: 36.48u 0.00s 0:39.02
+returntypec: 6.57u 0.00s 0:06.57
+
+Parameters :  170000000 10000 1003
+Original: 6.26u 0.00s 0:06.26
+returnglobal: 6.31u 0.00s 0:06.31
+returntype: 38.47u 0.00s 0:38.52
+returntypec: 7.08u 0.00s 0:07.08
+ 
+The results with compiler optimization are as follows:
+
+values 100000000 10000 1003
+Original: 3.20u 0.00s 0:03.21
+returnglobal:3.49u 0.00s 0:03.49
+returntype: 4.14u 0.00s 0:04.14
+returntypec: 3.98u 0.00s 0:03.99
+
+values 110000000 10000 1003
+Original: 3.69u 0.00s 0:03.70
+returnglobal: 3.81u 0.00s 0:03.83
+returntype: 4.62u 0.00s 0:04.65
+returntypec: 4.51u 0.00s 0:04.56
+ 
+values 120000000 10000 1003
+Original: 4.09u 0.00s 0:04.10
+returnglobal: 4.23u 0.00s 0:04.23
+returntype: 5.07u 0.00s 0:05.07
+returntypec: 5.01u 0.00s 0:05.01
+
+values 130000000 10000 1003
+Original: 4.36u 0.00s 0:04.40
+returnglobal: 4.50u 0.00s 0:04.51
+returntype: 5.41u 0.00s 0:05.41
+returntypec: 5.32u 0.00s 0:05.32
+ 
+values 140000000 10000 1003
+Original: 4.86u 0.00s 0:04.86
+returnglobal: 4.84u 0.00s 0:04.84
+returntype: 5.77u 0.00s 0:05.77
+returntypec: 5.61u 0.00s 0:05.61
+ 
+values 150000000 10000 1003
+Original: 4.82u 0.00s 0:04.82
+returnglobal: 5.07u 0.00s 0:05.07
+returntype: 6.06u 0.00s 0:06.06
+returntypec: 5.94u 0.00s 0:05.94
+ 
+values 160000000 10000 1003
+Original: 5.11u 0.00s 0:05.12
+returnglobal: 5.46u 0.00s 0:05.46
+returntype: 6.47u 0.00s 0:06.47
+returntypec: 6.51u 0.00s 0:06.51
+ 
+values 170000000 10000 1003
+Original: 5.65u 0.00s 0:05.65
+returnglobal: 6.02u 0.00s 0:06.03
+returntype: 7.10u 0.00s 0:07.11
+returntypec: 7.00u 0.00s 0:07.01
+
+1b(ii) 
+As you can see, for all the programs, with increasing data, the tim taken increases quite steadily at their own
+pace. One big point is how returntype takes a lot more time than the other 3 without compiler optimization. This is 
+becuase returntype relies heavily on classes and their values and a lot more assignments than the other 3.
+While returntype only uses global variables, it does not need to deal with structures too much. Hence it takes 
+comparatively less time. returntypec uses a struct to keep track of exceptions but has less computation and assignment
+than returntype, resulting in a lower time. The basic case, starts off slower than return global, but towards the end
+becomes faster. This is because, since it utilizes a try-catch block, less assignments are done and user-run code is
+also less. For smaller values the multiple assignments in returnglobal runs faster. But as the parameters increase in
+number, the assignments increase. This results in returnglobal eventually getting slower than the basic program.
+
+1b(iii) 
+It is rougly the same situation. Only that the basic program now runs faster than returnglobal the whole time.
+One interesting point is returntype getting much faster than before. So much that when the first parameter is
+160000000, it is faster than returntypec. Although, given the pattern of timings, it may be a discrepency, due to the
+randomness of the program, it is still saying something. Using compiler optimization, the compiler tries to reuse more
+code and generate less, which worked in favour for the returntype.
+
+1c(i)
+
+values 100000000 1000 1003
+original: 3.98u 0.00s 0:03.98
+returnglobal: 3.45u 0.00s 0:03.45
+returntype: 4.11u 0.00s 0:04.12
+returntypec: 4.01u 0.00s 0:04.01
+
+values 100000000 100 1003
+original: 0.20u 0.00s 0:10.21
+returnglobal: 3.46u 0.00s 0:03.47
+returntype: 4.05u 0.00s 0:04.05
+returntypec: 4.02u 0.00s 0:04.02
+
+values 100000000 50 1003
+original: 16.75u 0.00s 0:16.75
+returnglobal: 3.72u 0.00s 0:03.72
+returntype: 4.21u 0.00s 0:04.21
+returntypec: 4.25u 0.00s 0:04.26
+ 
+values 110000000 1000 1003
+original: 4.19u 0.00s 0:04.19
+returnglobal: 3.95u 0.00s 0:03.95
+returntype: 4.60u 0.00s 0:04.60
+returntypec: 4.50u 0.00s 0:04.51
+ 
+values 110000000 100 1003
+original: 11.23u 0.00s 0:11.24
+returnglobal: 3.90u 0.00s 0:03.90
+returntype: 4.79u 0.00s 0:04.79
+returntypec: 4.41u 0.00s 0:04.41
+ 
+values 110000000 50 1003
+original: 18.18u 0.00s 0:18.18
+returnglobal: 3.96u 0.00s 0:03.96
+returntype: 4.60u 0.00s 0:04.61
+returntypec: 4.56u 0.00s 0:04.56
+ 
+values 120000000 1000 1003
+original: 4.71u 0.00s 0:04.71
+returnglobal: 4.40u 0.00s 0:04.40
+returntype: 4.92u 0.00s 0:04.92
+returntypec: 4.89u 0.00s 0:04.89
+ 
+values 120000000 100 1003
+original: 11.90u 0.00s 0:11.90
+returnglobal: 4.20u 0.00s 0:04.20
+returntype: 4.98u 0.00s 0:04.98
+returntypec: 4.92u 0.00s 0:04.92
+ 
+values 120000000 50 1003
+original: 19.82u 0.00s 0:19.83
+returnglobal: 4.51u 0.00s 0:04.51
+returntype: 5.10u 0.00s 0:05.10
+returntypec: 5.28u 0.00s 0:05.28
+ 
+values 130000000 1000 1003
+original: 5.16u 0.00s 0:05.16
+returnglobal: 4.55u 0.00s 0:04.55
+returntype: 5.46u 0.00s 0:05.46
+returntypec: 5.32u 0.00s 0:05.33
+ 
+values 130000000 100 1003
+original: 13.19u 0.00s 0:13.20
+returnglobal: 4.60u 0.00s 0:04.61
+returntype: 5.48u 0.00s 0:05.48
+returntypec: 5.32u 0.00s 0:05.33
+ 
+values 130000000 50 1003
+original: 21.91u 0.00s 0:21.92
+returnglobal: 4.65u 0.00s 0:04.66
+returntype: 5.46u 0.00s 0:05.46
+returntypec: 5.53u 0.00s 0:05.53
+
+1c(ii)
+While the trend in runtime between each program is similar when the second parameter is the same, the change in the 
+second parameter makes quite the difference. This is because, as the number decreases, its probabilty of giving 
+a remainder of 0 increases, increases its chances of throwing an exception. The results here in general are a bit 
+more scattered than the previous results. But they do generate similar numbers. The main reason for the scattering
+is that the probabilty is a bit more one balanced, compared to the steeper probabilty of exceptions being thrown
+in b.

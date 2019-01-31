@@ -1,0 +1,44 @@
+
+I solved the problem in a certain way which did not meet the requirements of the question.
+I realized my error quite and late and due to poor decision making, I have a broken program.
+Although I think you will realize that I have understood the idea of coroutines. It was mainly
+due to my own carelessness that it is what it is.
+I hope you wont be too strict towards my work here. Thanks! Moving on....
+
+The main test document:
+
+Needless to say, the first thing I would test would be a line  having all components:
+
+input : %+123.456hd
+the output will be: '%+123.456hd' : '%+123.456hd' yes
+
+We should test a blank line, for a sanity check.
+Output: '' : Warning! Blank line.
+
+Start an almost line without '%'
+Input: +d
+Output:'+d' : '+' no, extraneous characters 'd'
+
+Have a line with no specifier:
+Input: %hh
+Output: '%hh' : '%hh' no
+
+Check for double charachter lengths:
+Input: %lld
+Output: '%lld' : '%lld' yes
+
+Check that the character after '.' in precision is a number or '*'
+Input: %*.hd
+Output: '%*.hd' : '%*.h' no, extraneous characters 'd'
+
+Check that '*'s work fine
+Input: '%*.*d' : '%*.*d' yes
+
+Checkt that '*'s and numbers arent supposed to be together
+Input: %*1.2d, %1.*2d
+Output: '%*1.2d' : '%*1' no, extraneous characters '.2d'
+	'%1.*2d' : '%1.*2' no, extraneous characters 'd'
+
+And extraneous characters count should also be tested, which are done through the tests here.
+
+Thank you!

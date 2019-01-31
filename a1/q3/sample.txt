@@ -1,0 +1,12 @@
+jkj kj kj kj
+67%d
+%dkjbkj
+%d
+%-d
+%-3d
+
+%03d
+%.3d jkjbkj
+%3.*d
+
+%+-
