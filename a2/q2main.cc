@@ -6,7 +6,6 @@
 
 using namespace std;                    // direct access to std
 
-_Event Sentinel{};
 int main(int argc, char *argv[]) {
 
     istream *infile = &cin;                // TODO get rid of this
@@ -44,19 +43,29 @@ int main(int argc, char *argv[]) {
 		int count;
 		TYPE ch;					//TODO::Need to change types here once done to make it take 'T'
         Binsertsort<TYPE> root;
-		
+
 		*infile >> count;
-		cout << "total COunt: " << endl;
+		cout << "total Count: " << count << endl;
 				
 		for(int i = 0; i < count; i++){
 			*infile >> ch;
         	root.sort(ch);
 		}
-		_Resume Sentinel() _At root;
+		
+		_Resume Binsertsort<TYPE>::Sentinel{} _At root;
+		cout << endl;
+		
+		for(int i = 0; i < count; i++){
+			cout << "Getting value : " << i << endl;
+			TYPE result = root.retrieve();
+			*outfile << result << endl;
+		}
        
-    } catch (...) {
-        cout << "Error caught" << endl;
-    }
+   	} catch (...) {
+	cout << "Error caught" << endl;
+   	}
+    
+    cout << "done" << endl;
 
     if (infile != &cin) {
         delete infile;
