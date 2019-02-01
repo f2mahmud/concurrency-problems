@@ -1,35 +1,70 @@
+#include "q2binsertsort.h"
 #include <iostream>
-#define DEXTERNAL
-using namespace std;
+#include <fstream>
+#define TYPE
 
-int main( int argc, char *argv[] ) {
-    int times = 1000000, size = 40;                     // defaults
+#if defined(TYPE)
+
+using namespace std;                    // direct access to std
+
+int main(int argc, char *argv[]) {
+
+    istream *infile = &cin;                // default value
+    ostream *outfile = &cout;
+
     try {
-        switch ( argc ) {
-          case 3: size = stoi( argv[2] ); if ( size <= 0 ) throw 1;
-          case 2: times = stoi( argv[1] ); if ( times <= 0 ) throw 1;
-          case 1: break;                                // use defaults
-          default: throw 1;
+        switch (argc) {
+            case 2:
+                try{
+                    outfile = new ofstream(argv[2]);
+                }catch(...){
+                    cerr << "Something went wrong when creating the ofstream" << endl;
+                }
+                throw 1;
+            case 1:
+                try {                    // open input file first as output creates file
+                    infile = new ifstream(argv[1]);    // open input file
+                    infile->exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
+                } catch (ios_base::failure) {
+                    cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
+                    throw 1;
+                } // try
+                break;
+            default:                    // wrong number of options
+                throw 1;
         } // switch
-    } catch( ... ) {
-        cout << "Usage: " << argv[0] << " [ times (> 0) [ size (> 0) ] ]" << endl;
-        exit( 1 );
+    } catch (int x) {
+        cerr << "Usage: ./binsertsort unsorted-file [sorted-file]" << endl;
+        exit(EXIT_FAILURE);                // TERMINATE
     } // try
 
-    for ( int i = 0; i < times; i += 1 ) {
-#if defined( DINTERNAL )
-		cout << "internal" << endl;
-        int intbuf[size];                               // internal-data buffer
-        for ( int i = 0; i < size; i += 1 ) intbuf[i] = i;
-        for ( int i = 0; i < size; i += 1 ) cout << intbuf[i] << ' '; // internal buffering
-        cout << endl;
-#elif defined( DEXTERNAL )
-		cout << "external" << endl;
-        string strbuf;                                  // external-data buffer
-        for ( int i = 0; i < size; i += 1 ) strbuf += to_string( i ) + ' '; // external buffering
-        cout << strbuf << endl;
+    //*infile >> noskipws;                // turn off white space skipping during input
+
+    try {
+        int ch;					//TODO::Need to change types here once done to make it take 'T'
+        Binsertsort<int> bInsertSort;
+        while(true){
+            *infile >> ch;
+            if(infile->fail()){
+                break;
+            }
+            bInsertSort.sort(ch);
+        }
+    } catch (...) {
+        cout << "Error caught" << endl;
+    }
+
+    if (infile != &cin) {
+        delete infile;
+    }        // close file, do not delete cin!
+    if ( outfile != &cout ) {
+        delete outfile;		// close file, do not delete cout!
+    }
+
+
+
+} // main
+
 #else
-#error unknown buffering style
+#error TYPE not defined
 #endif
-    } // for
-}

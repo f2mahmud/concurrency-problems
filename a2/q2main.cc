@@ -1,32 +1,35 @@
-#include "q2binsertsort.h"
+#include "q2binsertsort.cc"
 #include <iostream>
 #include <fstream>
 
+#if defined(TYPE)
+
 using namespace std;                    // direct access to std
 
+_Event Sentinel{};
 int main(int argc, char *argv[]) {
 
-	istream *infile = &cin;                // default value
-	ostream *outfile = &cout;
+    istream *infile = &cin;                // TODO get rid of this
+    ostream *outfile = &cout;
 
     try {
         switch (argc) {
+            case 3:
+                try{
+                    outfile = new ofstream(argv[2]);
+                }catch(...){
+                    cerr << "Something went wrong when creating the ofstream" << endl;
+                }
+                throw 1;
             case 2:
-				try{
-					outfile = new ofstream(argv[2])
-				}catch(...){
-					cerr << "Something went wrong when creating the ofstream" << endl;
-				}
-				throw 1;
-            case 1:
-				try {                    // open input file first as output creates file
+                try {                    // open input file first as output creates file
                     infile = new ifstream(argv[1]);    // open input file
                     infile->exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
                 } catch (ios_base::failure) {
                     cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                     throw 1;
                 } // try
-				break;
+                break;
             default:                    // wrong number of options
                 throw 1;
         } // switch
@@ -38,23 +41,34 @@ int main(int argc, char *argv[]) {
     //*infile >> noskipws;                // turn off white space skipping during input
 
     try {
-        string line;
-		while(true){
-			getline(*infile,line);
-			Printf printf;
-			for (char ch: line) {                    // copy input file to output fil
-				printf.next(ch);
-			} // for
+		int count;
+		TYPE ch;					//TODO::Need to change types here once done to make it take 'T'
+        Binsertsort<TYPE> root;
+		
+		*infile >> count;
+		cout << "total COunt: " << endl;
+				
+		for(int i = 0; i < count; i++){
+			*infile >> ch;
+        	root.sort(ch);
 		}
+		_Resume Sentinel() _At root;
+       
     } catch (...) {
-		cout << "Error caught" << endl;
+        cout << "Error caught" << endl;
     }
 
     if (infile != &cin) {
         delete infile;
     }        // close file, do not delete cin!
-	if ( outfile != &cout ) {
-		delete outfile;		// close file, do not delete cout!
-	}
-    
+    if ( outfile != &cout ) {
+        delete outfile;		// close file, do not delete cout!
+    }
+
+
+
 } // main
+
+#else
+#error TYPE not defined
+#endif
