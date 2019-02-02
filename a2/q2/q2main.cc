@@ -56,7 +56,6 @@ int main(int argc, char *argv[]) {
 		cout << endl;
 		
 		for(int i = 0; i < count; i++){
-			cout << "Getting value : " << i << endl;
 			TYPE result = root.retrieve();
 			*outfile << result << endl;
 		}

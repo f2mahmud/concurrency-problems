@@ -1,5 +1,5 @@
 CXX = g++				# compiler
-CXXFLAGS = -g -Wall -Wextra -MMD -std=c++11
+CXXFLAGS = -g -Wall -Wextra -MMD -std=c++11 -O2
 EXEC1= q1internal
 EXEC2 = q1external
 EXECS = ${EXEC1} ${EXEC2}

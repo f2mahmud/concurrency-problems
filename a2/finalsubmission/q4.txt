@@ -1,0 +1,25 @@
+Part a:
+
+Uniprocessor
+1 shared:22582973
+2 shared:25973295
+3 shared:24838646
+4 shared:24729969
+5 shared:22570871
+6 shared:20000000
+7 shared:20000000
+8 shared:24909562
+9 shared:25032288
+10 shared:25000107
+
+Multiprocessor
+1 shared:20556926
+2 shared:20674933
+3 shared:20182473
+4 shared:23049642
+5 shared:20555046
+6 shared:20044775
+7 shared:23777301
+8 shared:20073487
+9 shared:20220929
+10 shared:20077034

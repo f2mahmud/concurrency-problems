@@ -1,0 +1,49 @@
+Without optimization
+
+running external 1 args = 10000 2500
+3.64u 0.00s 0:03.64
+running external 2 args = 10000 5000
+7.16u 0.00s 0:07.17
+running external 3 args = 15000 2500
+5.50u 0.01s 0:05.52
+running external 4 args = 15000 5000
+10.91u 0.00s 0:10.91
+
+
+
+running internal 1 args = 10000 2500
+1.71u 0.00s 0:01.72
+running internal 2 args = 10000 5000
+3.50u 0.00s 0:03.51
+running internal 3 args = 15000 2500
+2.64u 0.00s 0:02.65
+running internal 4 args = 15000 5000
+5.23u 0.01s 0:05.24
+@ubuntu1604-008% /usr/bin/time -f "%Uu %Ss %E" ./q1external 15000 2500 > /dev/null
+
+
+With optimization
+
+running external 1 args = 10000 2500
+2.30u 0.00s 0:02.30
+running external 2 args = 10000 5000
+10.82u 0.00s 0:10.83
+running external 3 args = 15000 2500
+3.49u 0.00s 0:03.50
+running external 4 args = 15000 5000
+6.96u 0.01s 0:06.97
+
+
+running internal 1 args = 10000 2500
+1.68u 0.00s 0:01.69
+running internal 2 args = 10000 5000
+3.33u 0.02s 0:03.35
+running internal 3 args = 15000 2500
+2.53u 0.01s 0:02.54
+running internal 4 args = 15000 5000
+5.06u 0.02s 0:05.08
+
+(b)State the performance difference (larger/smaller/by how much) between the two versions of the program,
+and what caused the difference.
+(c) State the performance difference (larger/smaller/by how much) between the original and transformed 
+programs when compiler optimization is used.

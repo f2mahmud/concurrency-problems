@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-volatile int iterations = 10000000, shared = 0; // volatile to prevent dead-code removal
+volatile int iterations = 100000000, shared = 0; // volatile to prevent dead-code removal
 
 _Task increment {
     void main() {
