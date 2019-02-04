@@ -27,6 +27,12 @@ private:
     T value;                        // communication: value being passed down/up the tree
    
 	void main(){
+	
+			//To avoid null edges being read
+			//if(value == Sentinel){
+			//	suspend();
+			//	return;
+			//}
 			
 			cout << "********Setting pivot value to " << value << endl;
 			T pivot = value;
@@ -45,8 +51,7 @@ private:
 					}
 				}_CatchResume(Sentinel &s){
 					cout << "About to Catch Resume to resumer " << pivot << endl;
-					_Resume s _At resumer();
-					suspend();
+					_Throw s;
 				}
 				
 			}
@@ -72,9 +77,10 @@ private:
 		}_CatchResume(Sentinel &s){
 			
 			//Getting values less than pivot 
+			//FIXME:: Cant do more than 1 value
 		
 			try{
-				while(true){
+				//while(true){
 					_Enable{
 						cout << "Getting less value from " << pivot << endl;
 						_Resume s _At less;
@@ -82,11 +88,11 @@ private:
 						cout << "<<<<<<<<<Propagated back value from less: " << pivot << " " << value << endl;
 						suspend();
 					}
-				}
+				//}
 			}_CatchResume(Sentinel &s){
-				_Throw s;
+				_Resume s;
 			}catch(Sentinel &s){
-				
+				cout << "Here" << endl;
 			}
 			
 			//Getting pivot 
@@ -101,11 +107,13 @@ private:
 				}
 				
 			}_CatchResume(Sentinel &s){
-				throw s;
-			}catch(Sentinel &s){}
+				_Throw s;
+			}catch (Sentinel &s){
+				
+			}
 			
 			try{
-				while(true){
+				//while(true){
 						_Enable{	
 							cout << "Greater outer ccatch resume :: " << pivot << endl;
 							_Resume s _At greater;
@@ -113,12 +121,10 @@ private:
 							cout << "<<<<<<<<Propagated back value from greater: " << pivot << " " << value << endl	;					
 							suspend();
 						}
-					}
+					//}
 			}_CatchResume(Sentinel &s){
-				throw s;
+				_Resume s;
 			}catch(Sentinel &s){
-				_Resume s _At resumer();
-				suspend();
 			}
 			
 		}

@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
     try {
 		int count;
-		TYPE ch;					//TODO::Need to change types here once done to make it take 'T'
+		TYPE ch;			
         Binsertsort<TYPE> root;
 
 		*infile >> count;
@@ -49,12 +49,14 @@ int main(int argc, char *argv[]) {
 				
 		for(int i = 0; i < count; i++){
 			*infile >> ch;
+			//TODO::Print values in way that they are sent
         	root.sort(ch);
 		}
 		
-		_Resume Binsertsort<TYPE>::Sentinel{} _At root;
 		cout << endl;
 		
+		root.Binsertsort<TYPE>::Sentinel = Binsertsort<TYPE>::Sentinel{};
+				
 		for(int i = 0; i < count; i++){
 			TYPE result = root.retrieve();
 			*outfile << result << endl;
@@ -66,9 +68,8 @@ int main(int argc, char *argv[]) {
     
     cout << "done" << endl;
 
-    if (infile != &cin) {
-        delete infile;
-    }        // close file, do not delete cin!
+    delete infile;
+    
     if ( outfile != &cout ) {
         delete outfile;		// close file, do not delete cout!
     }
