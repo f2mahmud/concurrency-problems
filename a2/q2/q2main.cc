@@ -6,9 +6,46 @@
 
 using namespace std;                    // direct access to std
 
+	//Example TYPE
+	
+	class  ExampleType{
+		
+		int x;
+		char y;
+		
+		public:
+		
+		ExampleType(char y1 = 'a', int x1 = 0){
+			x = x1;
+			y = y1;
+		}
+		
+		bool operator<(const ExampleType &other){
+			if(y > other.y){
+				return true;
+			} 
+			return x < other.x;
+		}
+		
+		bool operator==(const ExampleType &other){
+			return x == other.x && y == other.y;
+		}
+		
+		friend istream &operator >> (istream &input, ExampleType &exampleType){
+			input >> exampleType.y >> exampleType.x;
+			return input;
+		}
+		
+		friend ostream &operator << (ostream &output, const ExampleType &exampleType){
+			output << exampleType.y << '-' << exampleType.x;
+			return output;
+		}
+		
+	};
+
 int main(int argc, char *argv[]) {
 
-    istream *infile = &cin;                // TODO get rid of this
+    istream *infile;
     ostream *outfile = &cout;
 
     try {
@@ -18,12 +55,12 @@ int main(int argc, char *argv[]) {
                     outfile = new ofstream(argv[2]);
                 }catch(...){
                     cerr << "Something went wrong when creating the ofstream" << endl;
+					throw 1;
                 }
-                throw 1;
             case 2:
                 try {                    // open input file first as output creates file
                     infile = new ifstream(argv[1]);    // open input file
-                    infile->exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
+                    infile->exceptions(ios_base::badbit | ios_base::failbit);
                 } catch (ios_base::failure) {
                     cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                     throw 1;
@@ -37,37 +74,40 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);                // TERMINATE
     } // try
 
-    //*infile >> noskipws;                // turn off white space skipping during input
 
     try {
 		int count;
-		TYPE ch;			
-        Binsertsort<TYPE> root;
-
+		
 		*infile >> count;
-		cout << "total Count: " << count << endl;
+		
+		if(count != 0){
+			TYPE ch;				
+			Binsertsort<TYPE> root;
+
+			for(int i = 0; i < count; i++){
+				*infile >> ch;
+				*outfile << ch << ' ';
+				root.sort(ch);
+			}
+		
+			*outfile << '\n';
+		
+			_Resume Binsertsort<TYPE>::Sentinel{} _At root;
 				
-		for(int i = 0; i < count; i++){
-			*infile >> ch;
-			//TODO::Print values in way that they are sent
-        	root.sort(ch);
+			for(int i = 0; i < count; i++){
+				TYPE result = root.retrieve();
+				*outfile << result << ' ';
+			}
+		}else{
+			*outfile << '\n';
 		}
 		
-		cout << endl;
-		
-		root.Binsertsort<TYPE>::Sentinel = Binsertsort<TYPE>::Sentinel{};
-				
-		for(int i = 0; i < count; i++){
-			TYPE result = root.retrieve();
-			*outfile << result << endl;
-		}
+		*outfile << '\n';
        
    	} catch (...) {
-	cout << "Error caught" << endl;
+		cout << "Error caught" << endl;
    	}
     
-    cout << "done" << endl;
-
     delete infile;
     
     if ( outfile != &cout ) {

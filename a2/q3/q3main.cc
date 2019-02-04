@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 	Printer printer = Printer(numberOfPlayers, numberOfCards);
     
 	// Let the games begin!
-	for (int i = 0 ; i < games; i++){
+	for (unsigned int i = 0 ; i < games; i++){
 	
 		//Setting up game environment
 		Player::players(numberOfPlayers);	
@@ -85,14 +85,14 @@ int main(int argc, char *argv[]) {
 		
 	
 		//Creating players for current game
-		for(int j = 0 ; j < numberOfPlayers; j++){
+		for(unsigned int j = 0 ; j < numberOfPlayers; j++){
 			currentGamePlayers.push_back(new Player(printer,j));
 		}
 		
 		//Assigning positions and initializing coroutines
-		int leftPlayerIndex, rightPlayerIndex;
+		unsigned int leftPlayerIndex, rightPlayerIndex;
 		
-		for(int j = 0 ; j < numberOfPlayers; j++){
+		for(unsigned int j = 0 ; j < numberOfPlayers; j++){
 			leftPlayerIndex = (j + (numberOfPlayers -1)) % numberOfPlayers;
 			rightPlayerIndex = (j + 1) % numberOfPlayers;
 			currentGamePlayers[j] -> start(*currentGamePlayers[leftPlayerIndex], *currentGamePlayers[rightPlayerIndex]); 
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 		currentGamePlayers[startingPlayerIndex]->play(numberOfCards);
 			
 		//GG:: Current game cleanup	
-		for(int j = 0; j < numberOfPlayers; j++){
+		for(unsigned int j = 0; j < numberOfPlayers; j++){
 			delete currentGamePlayers[j];
 		}
 		currentGamePlayers.clear();

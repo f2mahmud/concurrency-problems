@@ -22,7 +22,8 @@ class Printer {
     	static const char GAME_OVER = '#';
     	static const char DRINK = 'D';
     	
-    	unsigned int cardsTaken, cardsRemaining, playersLeft;
+    	unsigned int cardsRemaining, playersLeft;
+		int cardsTaken;
     	int playerTerminated = -1;
     	bool schmilblick = false;
     	

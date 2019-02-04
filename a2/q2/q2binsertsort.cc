@@ -7,10 +7,6 @@ template<typename T> _Coroutine Binsertsort {
 public:
   
     _Event Sentinel {};
-    
-    Binsertsort(){			//TODO::REmove
-    	cout << "New created" << endl;
-    }
 	
     void sort( T value ) {          // value to be sorted
         Binsertsort::value = value;
@@ -27,34 +23,26 @@ private:
     T value;                        // communication: value being passed down/up the tree
    
 	void main(){
-	
-			//To avoid null edges being read
-			//if(value == Sentinel){
-			//	suspend();
-			//	return;
-			//}
+		
+		try{
+			_Enable{}
+		}_CatchResume(Sentinel &s){
+			_Resume s _At resumer();
+			suspend();
+		}
+		
+		T pivot = value;
 			
-			cout << "********Setting pivot value to " << value << endl;
-			T pivot = value;
-			try{
-				
-				_Enable{
-					suspend();
-				}
-				
-			}_CatchResume(Sentinel &s){
-				
-				try{
-					_Enable{
-						value = pivot;
-						suspend();
-					}
-				}_CatchResume(Sentinel &s){
-					cout << "About to Catch Resume to resumer " << pivot << endl;
-					_Throw s;
-				}
-				
+		try{		
+			_Enable{
+				suspend();
 			}
+		}_CatchResume(Sentinel &s){
+			value = pivot;
+			suspend();
+			_Resume s _At resumer();
+			suspend();
+		}
 		
 		// implies vertex node
 		Binsertsort<T> less, greater;  
@@ -65,71 +53,49 @@ private:
 				while(true){
 					if(value < pivot){
 						less.sort(value);
-						cout << "Set less from " << pivot << " to " << value << endl;
 					}else{
 						greater.sort(value);
-						cout << "Set greater from " << pivot << " to " << value << endl;
 					}
 					suspend();
 				}
 			}
 			
 		}_CatchResume(Sentinel &s){
-			
-			//Getting values less than pivot 
-			//FIXME:: Cant do more than 1 value
 		
 			try{
-				//while(true){
-					_Enable{
-						cout << "Getting less value from " << pivot << endl;
-						_Resume s _At less;
-						value = less.retrieve();
-						cout << "<<<<<<<<<Propagated back value from less: " << pivot << " " << value << endl;
-						suspend();
-					}
-				//}
-			}_CatchResume(Sentinel &s){
-				_Resume s;
-			}catch(Sentinel &s){
-				cout << "Here" << endl;
-			}
-			
-			//Getting pivot 
-			
-			try{
-				
-				cout << "Outside sending root value " << pivot << endl;
 				_Enable{
-					cout << "Sent root value : " << pivot << endl;
-					value = pivot;
-					suspend();
+					_Resume s _At less;
+					while(true){
+						value = less.retrieve();
+						suspend();
+					}						
 				}
-				
 			}_CatchResume(Sentinel &s){
 				_Throw s;
-			}catch (Sentinel &s){
-				
 			}
+			catch(Sentinel &s){}
+			
+			//Getting pivot 	
+			value = pivot;
+			suspend();
 			
 			try{
-				//while(true){
-						_Enable{	
-							cout << "Greater outer ccatch resume :: " << pivot << endl;
-							_Resume s _At greater;
-							value = greater.retrieve();
-							cout << "<<<<<<<<Propagated back value from greater: " << pivot << " " << value << endl	;					
-							suspend();
-						}
-					//}
+				_Enable{	
+					_Resume s _At greater;
+					while(true){
+						value = greater.retrieve();
+						suspend();
+					}
+				}
 			}_CatchResume(Sentinel &s){
-				_Resume s;
-			}catch(Sentinel &s){
+				_Throw s;	
+			}catch(Sentinel &S){
+				_Resume s _At resumer();
+				suspend();
 			}
 			
 		}
 		
-	}                    
-	
-  
+	}
+	  
 };

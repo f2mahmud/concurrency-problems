@@ -2,6 +2,9 @@
 
 using namespace std;
 
+Printer::PlayerMove::PlayerMove(unsigned int cardsTaken, unsigned int cardsRemaining, unsigned int playersLeft)
+
+
 void Printer::init(){
 	cout << "Players: " << numberOfPlayers << Printer::TAB << "Cards: " << numberOfCards << '\n';
 	for(int i = 0 ; i < numberOfPlayers - 1 ; i++){

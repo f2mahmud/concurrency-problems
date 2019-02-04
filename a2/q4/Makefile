@@ -1,5 +1,5 @@
 CXX = u++				# compiler
-CXXFLAGS = -g -Wall -Wextra -MMD -std=c++11 -O2
+CXXFLAGS = -g -Wall -Wextra -MMD -std=c++11 
 EXEC1= q4
 EXEC2 = mq4
 EXECS = ${EXEC1} ${EXEC2}

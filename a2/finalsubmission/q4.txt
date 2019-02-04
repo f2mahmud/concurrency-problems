@@ -23,3 +23,35 @@ Multiprocessor
 8 shared:20073487
 9 shared:20220929
 10 shared:20077034
+
+Part b:
+The results do not need to be the same for either version. For the uniprocessor version, context switches between the
+two kernel threads can result in interruptions during load store sequences of the shared variable by one thread caused
+by th other thread, causing discrepencies in the final value.
+In the multiprocessor version, race conditions for the same memory cause overlapping of load store instructions between
+the two threads, resulting in the discrepencies.
+
+Part c:
+Using an uniprocessor, the highest value can be 40000000. This can happen when one thread completes the total loop 
+leaving the value of shared to be 20000000 and then context switching to the seccond thread which runs through the
+complete loop, leaving a final value of 40000000. The lowest value can be 20000000. This can happen when the first
+thread loads the initial value 0 and then context swtiches so that the other thread runs its full course. Once the 
+second thread finishes running, the first thread resumes on from there, but since it has only loaded the value 0
+and not the actual current value of 20000000, it will run with the value it is holding, leading to a final value 
+of 20000000.
+
+Using a multiprocessor, the highest value and lowest value that can be returned cannot be easily estimated but should
+be 30000000 and 15000000 respectively. Since both threads runa at the same time, the load store sequences will always
+be overlapping and in the best case scenario, two sequences of 1 thread is overlapped by 1 sequence of the other
+thread. So for each iteration, instead of a possible 4 updates of the shared variable by both threads, only 3 can be
+stored properly. The lowest value of 15000000 occurs if the two threads are constantly overtaking each other, resulting
+in a similar situation for the lowest in the uniprocessor version, only more dynamic as the race condition overtakes
+are going to happen from early on at smaller values.
+
+Part d:
+The uniprocessor values are generally larger. This is because since it has a higher maximum, the average value is
+higher and values closer to the maximum offer more than not. The only reason the value does not reach very high is
+because the scheduler tries to balance the time between each ccontext switch. Even then the value is usually above
+25000000. Other than a few times when it is less, which is due to a slight badly times context switch.
+Something of the same can be said about the multiproccessor version. It stays closer to its average, which is less
+than the uniprocessor version, resulting in smaller values on average.

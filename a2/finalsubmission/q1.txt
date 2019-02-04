@@ -7,9 +7,7 @@ running external 2 args = 10000 5000
 running external 3 args = 15000 2500
 5.50u 0.01s 0:05.52
 running external 4 args = 15000 5000
-10.91u 0.00s 0:10.91
-
-
+10.91u 0.00s 0:10.9
 
 running internal 1 args = 10000 2500
 1.71u 0.00s 0:01.72
@@ -19,8 +17,6 @@ running internal 3 args = 15000 2500
 2.64u 0.00s 0:02.65
 running internal 4 args = 15000 5000
 5.23u 0.01s 0:05.24
-@ubuntu1604-008% /usr/bin/time -f "%Uu %Ss %E" ./q1external 15000 2500 > /dev/null
-
 
 With optimization
 
@@ -33,7 +29,6 @@ running external 3 args = 15000 2500
 running external 4 args = 15000 5000
 6.96u 0.01s 0:06.97
 
-
 running internal 1 args = 10000 2500
 1.68u 0.00s 0:01.69
 running internal 2 args = 10000 5000
@@ -43,7 +38,17 @@ running internal 3 args = 15000 2500
 running internal 4 args = 15000 5000
 5.06u 0.02s 0:05.08
 
-(b)State the performance difference (larger/smaller/by how much) between the two versions of the program,
-and what caused the difference.
-(c) State the performance difference (larger/smaller/by how much) between the original and transformed 
-programs when compiler optimization is used.
+Part (b):
+The internal version is a bit more than twice as fast as the external version. This is because it takes time for the
+string to be retrieved, rebuilt and modified in external, instead of using the int buffer which takes less time.
+
+Part (c): 
+On average, the programs (both internal and external) run faster than their unoptimized counterparts when compiler 
+optimization is used. Between the internal and external version, it is still the same with the internal version being
+faster than the external version, only that this time, the ratio of timings between the 2 versions is not as linear 
+as the 2 versions in the optimized program.
+
+
+
+
+

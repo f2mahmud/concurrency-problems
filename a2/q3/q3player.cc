@@ -1,11 +1,12 @@
 #include "q3player.h"
-#include "q3printer.h"
 
 using namespace std;
 
+unsigned int Player::REMAINING_PLAYERS;
+
 void Player::start(Player &lp, Player &rp){
-	this->playerOnLeft = lp;
-	this ->playerOnRight = rp;
+	playerOnLeft = &lp;
+	playerOnRight = &rp;
 	resume();
 }
 
@@ -15,7 +16,7 @@ void Player::play(unsigned int dec){
 }
 
 void Player::drink(){
-	printer.prt(id, 0, Player::REMAINING_PLAYERS);
+	printer.prt(playerId, 0, Player::REMAINING_PLAYERS);
 }
 
 void Player:: players(unsigned int num){
@@ -60,7 +61,7 @@ void Player::main(){
 				
 				cardsLeft -= cardsTaken;
 				
-				printer.prt(); //TODO::Fix
+				printer.prt(playerId, cardsTaken, Player::REMAINING_PLAYERS);
 				
 				if(initialCardCount % DEATH_DECK_DIVISOR == 0){		//TODO::Need to use enum
 					if(cardsLeft == 0){
