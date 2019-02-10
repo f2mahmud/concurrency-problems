@@ -40,15 +40,15 @@ class Printer {
 			
 			//Normal round
 			output << move.cardsTaken << ':' << move.cardsRemaining;
-			if(move.cardsRemaining % 2 == 0 ){
+			if(move.cardsRemaining == 0){
+					output << PlayerMove::GAME_OVER;
+			}else if(move.cardsRemaining % 2 == 0 ){
 				output << PlayerMove::TO_THE_RIGHT;
 			}else{
 				output << PlayerMove::TO_THE_LEFT;
 			}
-			if(move.cardsRemaining == 0){
-					output << PlayerMove::GAME_OVER;
-			}
-			if(move.cardsTaken == -1){
+			
+			if(move.playersLeft == -1){
 				output << PlayerMove::PLAYER_TERMINATED;
 			}
 			output << PlayerMove::TAB;

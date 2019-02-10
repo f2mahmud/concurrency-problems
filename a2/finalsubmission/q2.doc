@@ -1,0 +1,40 @@
+I have created the ExampleType class as a template for the binsertsort program. It contains a char and an int.
+To calculate than ExampleType a > ExampleType b, we need to check if char a.y > b.y, if it is then a>b. 
+Otherwise we check whether if int b.x > a.x. If it is so, then b > a. With that in mind, some testing scenarios
+are as follows:
+
+1) the blank case:
+input : 0
+output: /*blank line*/
+		/*blank line*/
+		
+2) General Case:
+input:4 d-3 c-4 a-5 b-6
+output: 
+d-3 c-4 a-5 b-6
+a-5 b-2 c-4 d-3 
+
+This is a general comparison where the sorting is already taken care of by the chars, regardless of the int
+value being carried.
+
+3) Handled by the ints:
+input: 5 a-3 a-4 a-5 a-6 a-2 
+output: 
+a-3 a-4 a-5 a-6 a-2 
+a-6 a-5 a-4 a-3 a-2 
+
+Since all the chars are the same, the ints are compared. As you can see, they are all descending.
+
+4) Single input:
+input: 1 a 3
+output: 
+a-3
+a-3
+
+Pretty simple scenario, just to see if it can handle just one item
+
+5) Bad input
+input: 4 a 3 n 4 m 3 l 5 (through the command line)
+output: 4 a 3 n 4 m 3 l 5
+
+Just to show the error handling mechanism of the program.

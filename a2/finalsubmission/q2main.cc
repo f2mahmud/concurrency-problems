@@ -1,4 +1,4 @@
-#include "q2binsertsort.cc"
+#include "q2binsertsort.h"
 #include <iostream>
 #include <fstream>
 

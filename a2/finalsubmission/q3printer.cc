@@ -40,7 +40,7 @@ void Printer::printMoves(){
 	
 	cout << endl;
 	
-	if(schmilblick){
+	if(schmilblick && cardsLeft != 0){
 		for(int i = 0; i < numberOfPlayers; i++){
 			if(playerMoves[i] != nullptr){
 				cout << *(playerMoves[i]);
@@ -58,6 +58,7 @@ void Printer::prt(unsigned int id, int took, int RemainingPlayers){
 
 	if(took == 0){
 		schmilblick = true;
+		return;
 	}
 	
 	cardsLeft -= took;
@@ -66,9 +67,6 @@ void Printer::prt(unsigned int id, int took, int RemainingPlayers){
 	
 	if(cardsLeft == 0 || id == numberOfPlayers - 1){
 		printMoves();
-		if(cardsLeft == 0){
-			throw 1;
-		}
 	}
 
 }

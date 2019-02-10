@@ -41,7 +41,7 @@ void Player::main(){
 		_Enable{
 			
 			while(Player::REMAINING_PLAYERS > 1){
-				try{
+				
 				//Regular play
 				unsigned int cardsTaken = prng(1,8);
 				unsigned int initialCardCount = cardsLeft;	
@@ -72,9 +72,6 @@ void Player::main(){
 				//Everything went as normal
 				printer.prt(playerId, cardsTaken, Player::REMAINING_PLAYERS);
 				passToNextPlayer();
-				}catch(int i){
-					throw i;
-				}
 			
 			}
 		}

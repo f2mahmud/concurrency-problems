@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 	
 	// Let the games begin!
 	for (unsigned int i = 0 ; i < games; i++){
-		try{
+		
 			Printer printer = Printer(numberOfPlayers, numberOfCards);
 		
 			//Setting up game environment
@@ -99,8 +99,7 @@ int main(int argc, char *argv[]) {
 			}
 		
 			currentGamePlayers[startingPlayerIndex]->play(numberOfCards);
-		
-		}catch(int x){
+			
 			//GG:: Current game cleanup	
 			for(unsigned int j = 0; j < numberOfPlayers; j++){
 				delete currentGamePlayers[j];
@@ -113,7 +112,6 @@ int main(int argc, char *argv[]) {
 		
 			numberOfPlayers = prng(2,10);
 			numberOfCards = prng(10, 200);
-		}
 
 	} //for loop for the games    
     
