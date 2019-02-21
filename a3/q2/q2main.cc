@@ -21,6 +21,8 @@ int main( int argc, char * argv[] ) {
         xcyr = stoi(argv[2]);
         yc = stoi(argv[3]);
 
+		X = new int*[xr];
+		Y = new int*[xcyr];
         Z = new int*[xr];
 		for (int i = 0 ; i < xr; i++){
 			Z[i] = new int[yc];
@@ -29,15 +31,11 @@ int main( int argc, char * argv[] ) {
         switch ( argc ) {
             case 6:
 				
-				X = new int*[xr];
-				Y = new int*[xcyr];
-				
-                //Reading matrix Y
                 try{
                     infile = new ifstream(argv[5]);
-                    for(int i = 0; i < xcyr; i++){
+                    for(unsigned int i = 0; i < xcyr; i++){
                         Y[i] = new int[yc];
-                        for (int j = 0; j < yc; j++){
+                        for (unsigned int j = 0; j < yc; j++){
                             *infile >> Y[i][j];
                         }
                     }
@@ -48,9 +46,9 @@ int main( int argc, char * argv[] ) {
                 }
                 try{
                     infile = new ifstream(argv[4]);
-                    for(int i = 0; i < xr; i++){
+                    for(unsigned int i = 0; i < xr; i++){
                         X[i] = new int[xcyr];
-                        for (int j = 0; j < xcyr ; j++){
+                        for (unsigned int j = 0; j < xcyr ; j++){
                             *infile >> X[i][j];
                         }
                     }
@@ -70,31 +68,30 @@ int main( int argc, char * argv[] ) {
 
     } catch( ... ) {
         cerr << "Usage: "<< argv[0] << " xrows (> 0) xycols (> 0) ycols (> 0) [ processors (> 0) | x-matrix-file  y-matrix-file ]" << '\n';
-        //exit( EXIT_FAILURE );				// TERMINATE
+        exit( EXIT_FAILURE );				// TERMINATE
 
     } // try
 
     uProcessor p[processors - 1];  // number of kernel threads
 
     matrixmultiply( Z, X, xr, xcyr, Y, yc );
+
+	//print
+	Printer printer;
+	printer.print(Y, X, Z , xr, xcyr, yc);
 	
-	//Printer p;
-	
-	//p.print(Y);
-	//p.print(X,Z);
-	
-	for(int i = 0; i < xr; i++){
+	//delete all the matrices
+	for(unsigned int i = 0; i < xr; i++){
         delete [] X[i];
 		delete [] Z[i];
     }
 	delete [] X;
 	delete [] Z;
 					
-	for(int i = 0; i < xcyr; i++){
+	for(unsigned int i = 0; i < xcyr; i++){
 		delete [] Y[i];
 	}
 	delete[] Y;
 	
-	//delete all the matrices
 
 }

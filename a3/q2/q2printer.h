@@ -4,15 +4,12 @@
 using namespace std;
 
 class Printer {
-  
-	const unsigned int xr,xcyr,yc;
 	   
   public:
     
-    Printer( const unsigned int xr, const unsigned int xcyr, const unsigned int yc );
+    Printer(){};
    
-	void print(int *Y[]);
+	void print(int *Y[] , int *X[], int *Z[] , int x, int xcyr, int yc);
 	
-	void print(int *X[], int *Z[]);
-	
+
 };
