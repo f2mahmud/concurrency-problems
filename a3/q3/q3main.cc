@@ -19,15 +19,16 @@ int main( int argc, char * argv[] ) {
 		
         switch ( argc ) {
             case 6:
-				cin >> delay;
+				delay = stoi(argv[5]);
             case 5:
-                cin >> bufferSize;
+                bufferSize = stoi(argv[4]);
             case 4:
-                cin >> produce;
+                produce = stoi(argv[3]);;
 			case 3:
-				cin >> prods;
+				prods = stoi(argv[2]);;
 			case 2:
-				cin >> cons;
+				cons = stoi(argv[1]);
+				break;
 			case 1:
 				delay = cons+prods;
 				break;

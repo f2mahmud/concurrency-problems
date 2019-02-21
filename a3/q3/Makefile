@@ -1,6 +1,6 @@
 OPT:= -multi # -O2
 MIMPL:=COFOR_
-BIMPL:=NOBUSY
+BIMPL:=BUSY
 TYPE:=int
 SENTINEL:=-1
 
