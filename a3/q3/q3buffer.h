@@ -1,4 +1,5 @@
 #include <queue>
+#include <iostream>
 
 using namespace std;
 
@@ -10,15 +11,15 @@ template<typename T> class BoundedBuffer {
 	
 	//Create locks
 	uOwnerLock ownerLock;
-	uCondLock pCondLock, cCondLock;
+	uCondLock producerCL, consumerCL;
 	
 #ifdef NOBUSY
 
-	bool producerOccupied = false;
-	bool consumerOccupied = false;
+	bool producerCLOccupied = false;
+	bool consumerCLOccupied = false;
 	
 	//create locks for no busy
-	uCondLock pCondLock2, cCondLock2;
+	uCondLock producerCL2, consumerCL2;
 
 #endif
 	
@@ -34,12 +35,12 @@ template<typename T> class BoundedBuffer {
 		
 		try{
 			while(items.size() == size){
-				pCondLock.wait(ownerLock);
+				producerCL.wait(ownerLock);
 			}
 			
-			assert(items.size() < size);
+			assert(items.size() <= size);
 			items.push(elem);
-			cCondLock.signal();
+			consumerCL.signal();
 		}_Finally{
 			ownerLock.release();
 		}
@@ -50,12 +51,12 @@ template<typename T> class BoundedBuffer {
 		T answer;
 		try{
 			while(items.size() == 0){
-				cCondLock.wait(ownerLock);
+				consumerCL.wait(ownerLock);
 			}
-			assert(items.size() > 0);
+			assert(items.size() >= 0);
 			answer = items.front();
 			items.pop();
-			pCondLock.signal();
+			producerCL.signal();
 		}_Finally{
 			ownerLock.release();
 		}
@@ -67,30 +68,30 @@ template<typename T> class BoundedBuffer {
 	
 void insert( T elem ){
 		ownerLock.acquire();
-		
 		try{
 			
-			if(producerOccupied){
-				pCondLock2.wait(ownerLock);
+			if(producerCLOccupied){
+				producerCL2.wait(ownerLock);
 			}
 			
-			if(items.size() == size){
-				producerOccupied = true;
-				pCondLock.wait(ownerLock);
+			if(items.size() == size || producerCLOccupied){
+				producerCLOccupied = true;
+				producerCL.wait(ownerLock);
 			}
 			
-			assert(items.size() < size);
+			assert(items.size() <= size);
 			items.push(elem);
 			
-			producerOccupied = false;
+			if(producerCL.empty() || items.size() < size ){
+				producerCLOccupied = false;
+			}
 			
-			cCondLock.signal();
-			pCondLock2.signal();
-			
+			consumerCL.signal();
+			producerCL2.signal();	
+				
 		}_Finally{
 			ownerLock.release();
 		}
-		
 	};
 	
     T remove(){
@@ -99,25 +100,25 @@ void insert( T elem ){
 		T answer;
 		
 		try{
-			
-			if(consumerOccupied){
-				cCondLock2.wait(ownerLock);
+			if(consumerCLOccupied){
+				consumerCL2.wait(ownerLock);
 			}
 			
-			if(items.size() == 0){
-				cCondLock.wait(ownerLock);
+			if(items.size() == 0 || consumerCLOccupied){
+				consumerCLOccupied = true;
+				consumerCL.wait(ownerLock);
 			}
 			
-			
-			
-			assert(items.size() > 0);
+			assert(items.size() >= 0);
 			answer = items.front();
 			items.pop();
 			
-			consumerOccupied = false;
+			if(consumerCL.empty() || items.size() > 0){
+				consumerCLOccupied = false;
+			}
 			
-			pCondLock.signal();
-			cCondLock2.signal();
+			producerCL.signal();
+			consumerCL2.signal();	
 			
 		}_Finally{
 			ownerLock.release();

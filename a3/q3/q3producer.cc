@@ -10,7 +10,6 @@ void Producer::main(){
 	
 	for(int i = 1; i <= produce; i++){
 		yield(mprng(0, delay-1));
-		cout << i << "  ";
 		buffer.insert(i);
 	}
 	

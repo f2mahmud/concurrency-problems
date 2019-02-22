@@ -10,7 +10,7 @@ using namespace std;
 int main( int argc, char * argv[] ) {
 
     unsigned int cons = 5;
-	unsigned int prods = 5;
+	unsigned int prods = 3;
 	unsigned int produce = 10;
 	unsigned int bufferSize = 10;
 	unsigned int delay;
