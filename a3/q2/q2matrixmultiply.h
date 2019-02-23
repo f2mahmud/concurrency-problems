@@ -40,7 +40,7 @@ void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *
 		}
 		cout << endl;
 	);
-//TODO::check if actor can bt put on stack 
+//TODO::check if actor can be put on stack 
 #elif defined(ACTOR)
 
 	uActorStart();

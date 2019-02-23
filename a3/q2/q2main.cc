@@ -44,6 +44,7 @@ int main( int argc, char * argv[] ) {
                     cerr << "Error! Cannot open y-matrix input-file " << argv[5] << '\n';
                     throw 1;
                 }
+				
                 try{
                     infile = new ifstream(argv[4]);
                     for(unsigned int i = 0; i < xr; i++){
@@ -57,11 +58,30 @@ int main( int argc, char * argv[] ) {
                     cerr << "Error! Cannot open x-matrix input-file " << argv[4] << '\n';
                     throw 1;
                 }
+				
                 break;
             case 5:
+			
                 processors = stoi(argv[4]);
+				
             case 4:
+				
+				for(unsigned int i = 0; i < xcyr; i++){
+                    Y[i] = new int[yc];
+                    for (unsigned int j = 0; j < yc; j++){
+                        Y[i][j] = 37;
+                    }
+                }
+				
+				for(unsigned int i = 0; i < xr; i++){
+                    X[i] = new int[xcyr];
+                    for (unsigned int j = 0; j < xcyr ; j++){
+                        X[i][j] = 37;
+                    }
+                }
+					
                 break;
+				
             default:					// wrong number of options
                 throw 1;
         } // switch
@@ -77,8 +97,10 @@ int main( int argc, char * argv[] ) {
     matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
 	//print
-	Printer printer;
-	printer.print(Y, X, Z , xr, xcyr, yc);
+	if(argc == 6){
+		Printer printer;
+		printer.print(Y, X, Z , xr, xcyr, yc);
+	}
 	
 	//delete all the matrices
 	for(unsigned int i = 0; i < xr; i++){
