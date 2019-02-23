@@ -6,7 +6,7 @@ CXXFLAGS = -g ${OPT} -Wall -Wextra -MMD -std=c++14 -D"${MIMPL}"
 		
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
-OBJECTS1 = q2main.o q2printer.o
+OBJECTS1 = q2main.o q2printer.o q2task.o
 EXEC1 = matrixmultiply				# 1st executable name
 
 
