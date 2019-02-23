@@ -18,8 +18,6 @@ int** MatrixMultiplier::Z;
 
 using namespace std;
 
-
-
 int multiply(int *X, unsigned int xcyr, int *Y[], int yc){
 	int result = 0;
 	for(int unsigned i = 0; i < xcyr ; i++ ){
@@ -36,11 +34,9 @@ void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *
 	COFOR(i, 0, xr,	
 		for(unsigned int j = 0; j < yc ; j++){
 			Z[i][j] = multiply(X[i],xc,Y,j);
-			cout << Z[i][j] << " ";
 		}
-		cout << endl;
 	);
-//TODO::check if actor can be put on stack 
+
 #elif defined(ACTOR)
 
 	uActorStart();
