@@ -7,5 +7,5 @@ _Task Consumer {
 	int &sum;
     void main();
   public:
-    Consumer( BoundedBuffer<TYPE> &buffer, const int Delay, const int Sentinel, int &sum );
+    Consumer( BoundedBuffer<TYPE> &buffer, const int Delay, const int Sentinel, TYPE &sum );
 };

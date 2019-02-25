@@ -57,7 +57,7 @@ int main( int argc, char * argv[] ) {
 		producers[i] = new Producer (buffer, produce, delay);
 	}
 	
-	int sum = 0;
+	TYPE sum = 0;
 	Consumer **consumers = new Consumer*[cons];
 	
 	for(unsigned int i = 0; i < cons; i++){

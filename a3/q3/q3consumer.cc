@@ -3,7 +3,7 @@
 
 extern MPRNG mprng;
 
-Consumer::Consumer(BoundedBuffer<TYPE> &buffer, const int Delay, const int Sentinel, int &sum): buffer(buffer), delay(Delay), Sentinel(Sentinel), sum(sum){}
+Consumer::Consumer(BoundedBuffer<TYPE> &buffer, const int Delay, const int Sentinel, TYPE &sum): buffer(buffer), delay(Delay), Sentinel(Sentinel), sum(sum){}
 
 void Consumer::main(){
 	
