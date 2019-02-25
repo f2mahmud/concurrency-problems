@@ -1,4 +1,4 @@
-#include "q3producer.h"		//TODO:: need to fix this, should be buffer
+#include "q3buffer.h"
 
 _Task Consumer {
 	BoundedBuffer<TYPE> &buffer;

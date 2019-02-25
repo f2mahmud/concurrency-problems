@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
-
-//#include "q3producer.h"	TODO::should be included, but duplicated buffer.h
+#include "MPRNG2.h"
+#include "q3buffer.h"
+#include "q3producer.h"
 #include "q3consumer.h"
 
 using namespace std;
 
+MPRNG mprng;
 
 int main( int argc, char * argv[] ) {
 
@@ -59,7 +61,7 @@ int main( int argc, char * argv[] ) {
 	Consumer **consumers = new Consumer*[cons];
 	
 	for(unsigned int i = 0; i < cons; i++){
-		consumers[i] = new Consumer (buffer, delay, SENTINEL, sum);	//Figure out how to deal with sum
+		consumers[i] = new Consumer (buffer, delay, SENTINEL, sum);
 	}
 	
 	//Destroy the consumers producers and buffers
@@ -77,8 +79,6 @@ int main( int argc, char * argv[] ) {
 	
 	delete[] producers;
 	delete[] consumers;
-	
-	//delete buffer;
 
 	cout << "total: " << sum << endl;
 }

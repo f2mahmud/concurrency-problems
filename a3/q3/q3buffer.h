@@ -1,45 +1,59 @@
-#include <queue>
+#ifndef BUFFER_H
+
+#define BUFFER_H
+
 #include <iostream>
 
-using namespace std;
+
 
 template<typename T> class BoundedBuffer {
 	
-	unsigned int size;
+	unsigned int size, used;
 	
-	queue<T> items;
+	T *items;
 	
 	//Create locks
 	uOwnerLock ownerLock;
 	uCondLock producerCL, consumerCL;
 	
+	void push(T item){
+		items[used] = item;
+		used += 1;
+	}
+	
+	T pop(){
+		used -= 1;
+		T item = items[used];
+		return item;
+	}
+	
 #ifdef NOBUSY
-
-	bool producerCLOccupied = false;
-	bool consumerCLOccupied = false;
+	
+	bool noProducerEntry = false;
+	bool noConsumerEntry = false;
 	
 	//create locks for no busy
-	uCondLock producerCL2, consumerCL2;
+	uCondLock producerBargerCL, consumerBargerCL;
 
 #endif
 	
   public:
     
-	BoundedBuffer( const unsigned int size = 10 ) : size(size){
-		//items = queue::queue(size);
+	BoundedBuffer( const unsigned int size = 10 ) : size(size), used(0) {
+		items = new T[size];
 	};
-
+	
+	~BoundedBuffer() { delete[] items; }
+	
 #ifdef BUSY
     void insert( T elem ){
 		ownerLock.acquire();
-		
 		try{
-			while(items.size() == size){
+			while(used == size){
 				producerCL.wait(ownerLock);
 			}
-			
-			assert(items.size() <= size);
-			items.push(elem);
+			assert(used < size);
+			push(elem);
 			consumerCL.signal();
 		}_Finally{
 			ownerLock.release();
@@ -50,12 +64,11 @@ template<typename T> class BoundedBuffer {
 		ownerLock.acquire();
 		T answer;
 		try{
-			while(items.size() == 0){
+			while(used == 0){
 				consumerCL.wait(ownerLock);
 			}
-			assert(items.size() >= 0);
-			answer = items.front();
-			items.pop();
+			assert(used > 0);
+			answer = pop();
 			producerCL.signal();
 		}_Finally{
 			ownerLock.release();
@@ -68,27 +81,28 @@ template<typename T> class BoundedBuffer {
 	
 void insert( T elem ){
 		ownerLock.acquire();
+		
 		try{
 			
-			if(producerCLOccupied){
-				producerCL2.wait(ownerLock);
+			if(noProducerEntry){
+				producerBargerCL.wait(ownerLock);
 			}
 			
-			if(items.size() == size || producerCLOccupied){
-				producerCLOccupied = true;
+			if(used == size){
+				noProducerEntry = true;
 				producerCL.wait(ownerLock);
 			}
 			
-			assert(items.size() <= size);
-			items.push(elem);
-			
-			if(producerCL.empty() || items.size() < size ){
-				producerCLOccupied = false;
-			}
+			assert(used < size);
+			push(elem);
 			
 			consumerCL.signal();
-			producerCL2.signal();	
-				
+			producerBargerCL.signal();
+			
+			if(producerBargerCL.empty()){
+				noProducerEntry = false;
+			}
+	
 		}_Finally{
 			ownerLock.release();
 		}
@@ -100,25 +114,25 @@ void insert( T elem ){
 		T answer;
 		
 		try{
-			if(consumerCLOccupied){
-				consumerCL2.wait(ownerLock);
+			
+			if(noConsumerEntry){
+				consumerBargerCL.wait(ownerLock);
 			}
 			
-			if(items.size() == 0 || consumerCLOccupied){
-				consumerCLOccupied = true;
+			if(used == 0){
+				noConsumerEntry = true;
 				consumerCL.wait(ownerLock);
 			}
 			
-			assert(items.size() >= 0);
-			answer = items.front();
-			items.pop();
-			
-			if(consumerCL.empty() || items.size() > 0){
-				consumerCLOccupied = false;
-			}
+			assert(used > 0);
+			answer = pop();
 			
 			producerCL.signal();
-			consumerCL2.signal();	
+			consumerBargerCL.signal();
+			
+			if(consumerBargerCL.empty()){
+				noConsumerEntry = false;
+			}
 			
 		}_Finally{
 			ownerLock.release();
@@ -131,6 +145,8 @@ void insert( T elem ){
 #endif // NOBUSY
 
 };
+
+#endif
 
 
 

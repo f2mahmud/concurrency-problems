@@ -1,5 +1,5 @@
-OPT:= -multi # -O2
-MIMPL:=CFOR
+OPT:= -multi -O2
+MIMPL:=ACTOR
 
 CXX = u++					# compiler
 CXXFLAGS = -g ${OPT} -Wall -Wextra -MMD -std=c++14 -D"${MIMPL}"
