@@ -1,7 +1,7 @@
-OPT:=   -multi
+OPT:=  -multi
 
-BIMPL:=BUSY
-TYPE:=unsigned int
+BIMPL:=NOBUSY
+TYPE:=int
 SENTINEL:=-1
 
 CXX = u++					# compiler

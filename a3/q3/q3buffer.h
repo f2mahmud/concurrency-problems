@@ -97,9 +97,8 @@ void insert( T elem ){
 			push(elem);
 			
 			consumerCL.signal();
-			producerBargerCL.signal();
 			
-			if(producerBargerCL.empty()){
+			if(!producerBargerCL.signal()){
 				noProducerEntry = false;
 			}
 	
@@ -128,9 +127,8 @@ void insert( T elem ){
 			answer = pop();
 			
 			producerCL.signal();
-			consumerBargerCL.signal();
 			
-			if(consumerBargerCL.empty()){
+			if(!consumerBargerCL.signal()){
 				noConsumerEntry = false;
 			}
 			

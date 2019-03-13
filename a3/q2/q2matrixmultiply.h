@@ -41,9 +41,7 @@ void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *
 
 	uActorStart();
 	for(unsigned int i = 0; i < xr; i++ ){
-		for(unsigned int j = 0; j < yc; j++ ){
-			*(new MatrixMultiply()) | * new MatrixMessage(X[i],Z[i][j],xc,Y,j);
-		}
+		*(new MatrixMultiply()) | * new MatrixMessage(X,Z,i,xc,Y,yc);	
 	}
 	uActor::stop();
 	

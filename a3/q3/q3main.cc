@@ -57,11 +57,11 @@ int main( int argc, char * argv[] ) {
 		producers[i] = new Producer (buffer, produce, delay);
 	}
 	
-	TYPE sum = 0;
+	TYPE sums[cons] = {0};
 	Consumer **consumers = new Consumer*[cons];
 	
 	for(unsigned int i = 0; i < cons; i++){
-		consumers[i] = new Consumer (buffer, delay, SENTINEL, sum);
+		consumers[i] = new Consumer (buffer, delay, SENTINEL, sums[i]);
 	}
 	
 	//Destroy the consumers producers and buffers
@@ -73,7 +73,9 @@ int main( int argc, char * argv[] ) {
 		buffer.insert(SENTINEL);
 	}
 	
+	TYPE sum = 0;
 	for(unsigned int i = 0; i < cons; i++){
+		sum += sums[i];
 		delete consumers[i];
 	}
 	
